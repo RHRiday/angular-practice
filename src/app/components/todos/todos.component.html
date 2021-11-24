@@ -1,6 +1,7 @@
 <div class="todos">
-  <form (submit)="addTodo()">
-    <input type="text" name="inputTodo" placeholder="Enter todo..." class="form-control" [(ngModel)]="inputTodo" />
+  <form (ngSubmit)="addTodo()">
+    <input type="text" name="inputTodo" placeholder="Enter todo..." class="form-control"
+      [(ngModel)]="inputTodo" />
     <input type="submit" value="Add Todo" class="btn btn-primary my-2" />
   </form>
   <table class="table table-striped">
@@ -16,14 +17,13 @@
       <tr *ngFor="let todo of todos; let i = index;" class="todo">
         <th scope="row">{{ i + 1 }}</th>
         <td>{{ todo.description }}</td>
-        <td><span class="badge bg-success"
-				[ngClass]="{
+        <td><span class="badge bg-success" [ngClass]="{
 					'bg-secondary': todo.status == 'Initiated',
 					'bg-warning': todo.status == 'On Progress',
 					'bg-success': todo.status == 'Done'
 				}">{{ todo.status }}</span></td>
         <td>
-          <select class="form-select form-select-sm" (change)="toggleStatus(todo.id, $event.target.value)">
+          <select *ngIf="todo.status != 'Done'" class="form-select form-select-sm" (change)="toggleStatus(todo.id, $event.target.value)">
             <option [selected]="todo.status == 'Initiated'" [value]="'Initiated'">TO DO</option>
             <option [selected]="todo.status == 'On Progress'" [value]="'On Progress'">On Progress</option>
             <option [selected]="todo.status == 'Done'" [value]="'Done'">Done</option>

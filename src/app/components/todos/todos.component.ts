@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from 'src/app/models/Todo';
-
-import { TodoService } from 'src/app/services/todo.service';
+import { TodoAppService } from 'src/app/services/todo-app.service';
 
 @Component({
   selector: 'app-todos',
@@ -12,30 +11,35 @@ export class TodosComponent implements OnInit {
 
   todos: Todo[];
 
-  inputTodo: string = "";
+  inputTodo: string;
 
   constructor(
-    private todoService: TodoService,
+    private todoService: TodoAppService,
   ) { }
 
-  ngOnInit(): void {
-    this.todos = this.todoService.getTodos();
+  ngOnInit() {
+    this.getTodo();
   }
 
-  toggleStatus(i, val) {
-    this.todos.forEach((v) => {
-      v.id === i ? v.status = val : '';
-    })
+  getTodo() {
+    this.todoService.getAll().subscribe(
+      (res: Todo[]) => {
+        this.todos = res
+      }
+    )
+  }
+
+  toggleStatus(i, data) {
+    this.todoService.toggleStatus(i, { status: data }).subscribe(
+      res => this.getTodo()
+    );
   }
 
   addTodo() {
     if (this.inputTodo.trim() !== '') {
-      this.todos.push({
-        id: 6,
-        description: this.inputTodo,
-        status: 'Initiated'
-      });
-
+      this.todoService.addToDo({ description: this.inputTodo }).subscribe(
+        res => this.getTodo()
+      )
       this.inputTodo = "";
     }
   }
