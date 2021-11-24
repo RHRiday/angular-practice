@@ -1,0 +1,39 @@
+<div class="todos">
+  <form (submit)="addTodo()">
+    <input type="text" name="inputTodo" placeholder="Enter todo..." class="form-control" [(ngModel)]="inputTodo" />
+    <input type="submit" value="Add Todo" class="btn btn-primary my-2" />
+  </form>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Description</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let todo of todos; let i = index;" class="todo">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ todo.description }}</td>
+        <td><span class="badge bg-success"
+				[ngClass]="{
+					'bg-secondary': todo.status == 'Initiated',
+					'bg-warning': todo.status == 'On Progress',
+					'bg-success': todo.status == 'Done'
+				}">{{ todo.status }}</span></td>
+        <td>
+          <select class="form-select form-select-sm" (change)="toggleStatus(todo.id, $event.target.value)">
+            <option [selected]="todo.status == 'Initiated'" [value]="'Initiated'">TO DO</option>
+            <option [selected]="todo.status == 'On Progress'" [value]="'On Progress'">On Progress</option>
+            <option [selected]="todo.status == 'Done'" [value]="'Done'">Done</option>
+          </select>
+          <!-- <button class="btn btn-sm btn-info text-white" (click)="deleteTodo(i)">Remove</button> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- <div class="id"></div>
+  <div class="content" (click)="toggleDone(i)"></div>
+  <button class="delete" (click)="deleteTodo(i)">Remove</button> -->
+</div>
