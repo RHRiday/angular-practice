@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Todo } from '../models/Todo';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
@@ -9,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TodoAppService {
-  readonly baseURL = environment.apiRoot;
+  readonly baseURL = environment.apiRoot + '/todo';
 
   constructor(private http: HttpClient) { }
 
